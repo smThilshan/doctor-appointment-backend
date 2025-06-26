@@ -11,6 +11,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Doctor;
 use App\Models\UserDetails;
+use App\Models\Appointments;
 
 class User extends Authenticatable
 {
@@ -70,5 +71,11 @@ class User extends Authenticatable
     public function user_details()
     {
         return $this->hasOne(UserDetails::class, 'user_id');
+    }
+
+    // one user can have many appointments
+    public function appointments()
+    {
+        return $this->hasMany(Appointments::class, 'user_id');
     }
 }

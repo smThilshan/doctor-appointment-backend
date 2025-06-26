@@ -22,6 +22,7 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input)
     {
+
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -37,10 +38,17 @@ class CreateNewUser implements CreatesNewUsers
             'password' => Hash::make($input['password']),
         ]);
 
-         $doctorInfo = Doctor::create([
+        $doctorInfo = Doctor::create([
                 'doc_id' => $user->id,
                 'status' => 'active',
-            ]);
+        ]);
+
+        $userInfo = UserDetails::create([
+    'user_id' => $user->id,
+    'status' => 'active',
+]);
+
+        // dd('Entered CreateNewUser', $user);
 
 
          return $user;
