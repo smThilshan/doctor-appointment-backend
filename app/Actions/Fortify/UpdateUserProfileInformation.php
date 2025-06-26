@@ -37,6 +37,16 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'email' => $input['email'],
             ])->save();
         }
+
+        $doctor =  Doctor::updateOrCreate(
+        ['doc_id' => $user->id],
+        
+        [
+        'experience' => $input['experience'] ?? null,
+        'bio_data' => $input['bio_data'] ?? null,
+        'category' => $input['category'] ?? null,
+        ]
+        );
     }
 
     /**
