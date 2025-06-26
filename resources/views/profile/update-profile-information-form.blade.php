@@ -28,8 +28,16 @@
 
                 <!-- Current Profile Photo -->
                 <div class="mt-2" x-show="! photoPreview">
-                    <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}" class="rounded-full h-20 w-20 object-cover">
-                </div>
+                    
+                 
+                <!-- <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}" class="rounded-full h-20 w-20 object-cover"> -->
+            <img src="{{ Auth::user()->profile_photo_path 
+            ? asset('storage/' . Auth::user()->profile_photo_path) 
+            : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}" 
+     alt="{{ Auth::user()->name }}" 
+     class="rounded-full h-20 w-20 object-cover">
+   
+            </div>
 
                 <!-- New Profile Photo Preview -->
                 <div class="mt-2" x-show="photoPreview" style="display: none;">
@@ -59,6 +67,17 @@
             <x-jet-input-error for="name" class="mt-2" />
         </div>
 
+        <!-- Bio Data -->
+<div class="col-span-6 sm:col-span-4">
+    <x-jet-label for="bio_data" value="{{ __('Bio Data') }}" />
+    <textarea id="bio_data" 
+              wire:model.defer="state.bio_data" 
+              class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
+              autocomplete="off"></textarea>
+    <x-jet-input-error for="bio_data" class="mt-2" />
+</div>
+
+
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="email" value="{{ __('Email') }}" />
@@ -81,6 +100,26 @@
                 @endif
             @endif
         </div>
+
+
+        <!-- Experience -->
+<div class="col-span-6 sm:col-span-4">
+    <x-jet-label for="experience" value="{{ __('Experience (years)') }}" />
+    <x-jet-input id="experience" type="number" min="0" 
+        class="mt-1 block w-full" 
+        wire:model.defer="state.experience" autocomplete="off" />
+    <x-jet-input-error for="experience" class="mt-2" />
+</div>
+
+<!-- Category -->
+<div class="col-span-6 sm:col-span-4">
+    <x-jet-label for="category" value="{{ __('Category') }}" />
+    <x-jet-input id="category" type="text" 
+        class="mt-1 block w-full" 
+        wire:model.defer="state.category" autocomplete="off" />
+    <x-jet-input-error for="category" class="mt-2" />
+</div>
+
     </x-slot>
 
     <x-slot name="actions">
