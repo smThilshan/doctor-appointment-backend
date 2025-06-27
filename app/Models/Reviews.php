@@ -7,20 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\User;
 
-class Doctor extends Model
+class Reviews extends Model
 {
     use HasFactory;
 
-        protected $fillable = [
+    protected $fillable = [
+        'user_id',
         'doc_id',
-        'category',
-        'patients',
-        'experience',
-        'bio_data',
+        'ratings',
+        'reviews',
+        'reviewed_by',
         'status',
     ];
 
-    public function user()
+       public function user()
     {
         return $this->belongsTo(User::class);
     }

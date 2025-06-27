@@ -9,6 +9,7 @@ use App\Models\Doctor;
 use App\Models\UserDetails;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use App\Models\Appointments;  
 
 class UsersController extends Controller
 {
@@ -24,6 +25,10 @@ class UsersController extends Controller
         $doctor = User::where('type', 'doctor')->get();
         $doctorData = Doctor::all();
 
+        // returning today's appointment
+        $date = now()->format('dd/mm/YYYY');
+        $appointment = Appointments::where('date',$date)->first();
+
         // collecting user data and all doctor data
         foreach ($doctorData as $data) {
             // sorting doctor name and other details
@@ -31,6 +36,9 @@ class UsersController extends Controller
                 if($data['doc_id'] == $info['id']){
                     $data['doctor_name'] = $info['name'];
                     $data['doctor_profile'] = $info['profile_photo_url'];
+                    if(isset($appointment) && $appointment['doc_id'] == $info['id']){
+                        $data['appointments'] = $appointment;
+                    }
                 }
 
             }

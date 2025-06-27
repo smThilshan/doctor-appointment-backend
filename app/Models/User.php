@@ -12,6 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\Doctor;
 use App\Models\UserDetails;
 use App\Models\Appointments;
+use App\Models\Reviews;
 
 class User extends Authenticatable
 {
@@ -77,5 +78,11 @@ class User extends Authenticatable
     public function appointments()
     {
         return $this->hasMany(Appointments::class, 'user_id');
+    }
+
+       
+    public function reviews()
+    {
+        return $this->hasMany(Reviews::class, 'user_id');
     }
 }
