@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; 
-use App\Models\Appointments;           
+use App\Models\Appointments;    
+use App\Models\User;
 
 
 class AppointmentsController extends Controller
@@ -16,7 +17,24 @@ class AppointmentsController extends Controller
      */
     public function index()
     {
-        //
+        //retrieve all data
+        $appointment = Appointments::where('user_id', Auth::user()->id)->get();
+        $doctor = User::where('type','doctor')->get();
+
+        foreach($appointment as $data) {
+            foreach($doctor as $info) {
+                $details = $info->doctor;
+                if($data['doc_id'] == $info['id']){
+                    $data['doctor_name'] = $info['name']; 
+                    $data['doctor_profile'] = $info['profile_photo_url']; 
+                    $data['category'] = $info['category']; 
+
+                }
+
+            }
+        }
+
+        return $appointment;
     }
 
     /**
